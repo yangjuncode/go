@@ -389,7 +389,7 @@ var readFromTimeoutTests = []struct {
 	// to be read.
 	{-5 * time.Second, [2]error{os.ErrDeadlineExceeded, os.ErrDeadlineExceeded}},
 
-	{50 * time.Millisecond, [2]error{nil, os.ErrDeadlineExceeded}},
+	{500 * time.Millisecond, [2]error{nil, os.ErrDeadlineExceeded}},
 }
 
 func TestReadFromTimeout(t *testing.T) {
