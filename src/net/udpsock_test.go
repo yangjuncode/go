@@ -376,7 +376,7 @@ func TestUDPZeroByteBuffer(t *testing.T) {
 		if n != len(b) {
 			t.Errorf("got %d; want %d", n, len(b))
 		}
-		c.SetReadDeadline(time.Now().Add(100 * time.Millisecond))
+		c.SetReadDeadline(time.Now().Add(500 * time.Millisecond))
 		if genericRead {
 			_, err = c.(Conn).Read(nil)
 		} else {

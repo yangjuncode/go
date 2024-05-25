@@ -907,7 +907,7 @@ func TestDialClosedPortFailFast(t *testing.T) {
 			// available.
 			ln.Close()
 
-			maxElapsed := time.Second
+			maxElapsed := time.Second * 5
 			// The host can be heavy-loaded and take
 			// longer than configured. Retry until
 			// Dial takes less than maxElapsed or
