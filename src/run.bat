@@ -24,6 +24,10 @@ if errorlevel 1 goto fail
 call .\env.bat
 del env.bat
 
+:: For GetProcessMemoryInfo
+set CGO_CFLAGS=-DPSAPI_VERSION=1
+set CGO_LDFLAGS=-lpsapi
+
 set GOPATH=c:\nonexist-gopath
 
 if x%1==x--no-rebuild goto norebuild
