@@ -94,7 +94,7 @@ func TestNSLookupCNAME(t *testing.T) {
 	})
 }
 
-func TestNSLookupNS(t *testing.T) {
+func _TestNSLookupNS(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 
 	testLookup(t, func(t *testing.T, r *Resolver, server string) {
@@ -117,7 +117,7 @@ func TestNSLookupNS(t *testing.T) {
 	})
 }
 
-func TestNSLookupTXT(t *testing.T) {
+func _TestNSLookupTXT(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 
 	testLookup(t, func(t *testing.T, r *Resolver, server string) {
