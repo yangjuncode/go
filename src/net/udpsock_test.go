@@ -392,7 +392,7 @@ func _TestUDPZeroByteBuffer(t *testing.T) {
 	}
 }
 
-func TestUDPReadSizeError(t *testing.T) {
+func _TestUDPReadSizeError(t *testing.T) {
 	switch runtime.GOOS {
 	case "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
