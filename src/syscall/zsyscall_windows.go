@@ -47,6 +47,7 @@ var (
 	modshell32  = NewLazyDLL(sysdll.Add("shell32.dll"))
 	moduserenv  = NewLazyDLL(sysdll.Add("userenv.dll"))
 	modws2_32   = NewLazyDLL(sysdll.Add("ws2_32.dll"))
+	modntdll    = NewLazyDLL(sysdll.Add("ntdll.dll"))
 
 	procConvertSidToStringSidW             = modadvapi32.NewProc("ConvertSidToStringSidW")
 	procConvertStringSidToSidW             = modadvapi32.NewProc("ConvertStringSidToSidW")
@@ -196,6 +197,7 @@ var (
 	procsetsockopt                         = modws2_32.NewProc("setsockopt")
 	procshutdown                           = modws2_32.NewProc("shutdown")
 	procsocket                             = modws2_32.NewProc("socket")
+	procRtlGetNtVersionNumbers			   = modntdll.NewProc("RtlGetNtVersionNumbers")
 )
 
 func ConvertSidToStringSid(sid *SID, stringSid **uint16) (err error) {
@@ -1473,5 +1475,10 @@ func socket(af int32, typ int32, protocol int32) (handle Handle, err error) {
 	if handle == InvalidHandle {
 		err = errnoErr(e1)
 	}
+	return
+}
+
+func rtlGetNtVersionNumbers(majorVersion *uint32, minorVersion *uint32, buildNumber *uint32) {
+	Syscall(procRtlGetNtVersionNumbers.Addr(), 3, uintptr(unsafe.Pointer(majorVersion)), uintptr(unsafe.Pointer(minorVersion)), uintptr(unsafe.Pointer(buildNumber)))
 	return
 }
