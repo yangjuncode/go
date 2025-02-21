@@ -129,6 +129,7 @@ var (
 	procGetShortPathNameW                  = modkernel32.NewProc("GetShortPathNameW")
 	procGetStartupInfoW                    = modkernel32.NewProc("GetStartupInfoW")
 	procGetStdHandle                       = modkernel32.NewProc("GetStdHandle")
+	procGetSystemDirectoryW                = modkernel32.NewProc("GetSystemDirectoryW")
 	procGetSystemTimeAsFileTime            = modkernel32.NewProc("GetSystemTimeAsFileTime")
 	procGetTempPathW                       = modkernel32.NewProc("GetTempPathW")
 	procGetTimeZoneInformation             = modkernel32.NewProc("GetTimeZoneInformation")
@@ -197,7 +198,7 @@ var (
 	procsetsockopt                         = modws2_32.NewProc("setsockopt")
 	procshutdown                           = modws2_32.NewProc("shutdown")
 	procsocket                             = modws2_32.NewProc("socket")
-	procRtlGetNtVersionNumbers			   = modntdll.NewProc("RtlGetNtVersionNumbers")
+	procRtlGetNtVersionNumbers             = modntdll.NewProc("RtlGetNtVersionNumbers")
 )
 
 func ConvertSidToStringSid(sid *SID, stringSid **uint16) (err error) {
@@ -868,6 +869,15 @@ func GetStdHandle(stdhandle int) (handle Handle, err error) {
 	r0, _, e1 := Syscall(procGetStdHandle.Addr(), 1, uintptr(stdhandle), 0, 0)
 	handle = Handle(r0)
 	if handle == InvalidHandle {
+		err = errnoErr(e1)
+	}
+	return
+}
+
+func getSystemDirectory(dir *uint16, dirLen uint32) (len uint32, err error) {
+	r0, _, e1 := Syscall(procGetSystemDirectoryW.Addr(), 2, uintptr(unsafe.Pointer(dir)), uintptr(dirLen), 0)
+	len = uint32(r0)
+	if len == 0 {
 		err = errnoErr(e1)
 	}
 	return
